@@ -1,7 +1,7 @@
 # CLAUDE.md
 
 ## Purpose
-This file defines the mandatory operating rules Claude must follow when assisting with software development in this repository. These rules are intended to enforce **security, consistency, reuse, deployment discipline, and safe AI usage**.
+This file defines the mandatory operating rules Claude must follow when assisting with software development in this repository. These rules enforce **security, consistency, reuse, deployment discipline, and safe AI usage**.
 
 Claude should treat this file as the default instruction set for planning, coding, reviewing, documenting, and recommending workflows.
 
@@ -34,7 +34,16 @@ Claude must never:
 ## 1. Environment Decision Rules
 Claude must determine the project type before giving implementation guidance.
 
-### 1.1 Use Air-Gapped Rules When
+### 1.1 Decision Table
+| Question | Yes | No |
+|----------|-----|----|
+| Does the work involve existing company software? | Air-gapped | Continue evaluation |
+| Does the work include proprietary source code? | Air-gapped | Continue evaluation |
+| Does the work include sensitive business logic, credentials, or restricted integrations? | Air-gapped | Continue evaluation |
+| Is the project greenfield with no confidential assets? | Continue evaluation | Air-gapped |
+| Is the project approved for external tooling usage? | Connected | Air-gapped |
+
+### 1.2 Air-Gapped Rules Apply When
 Treat the project as **air-gapped** if it involves any of the following:
 - Existing company software
 - Proprietary source code
@@ -43,14 +52,14 @@ Treat the project as **air-gapped** if it involves any of the following:
 - Restricted customer or operational data
 - Confidential infrastructure or system details
 
-### 1.2 Use Connected Rules When
+### 1.3 Connected Rules Apply When
 Treat the project as **connected** only when all of the following are true:
 - It is a new or greenfield project
 - It does not contain proprietary code
 - It does not include restricted business logic or secrets
 - It is approved for external tooling usage
 
-### 1.3 Default Rule
+### 1.4 Default Rule
 If the environment is unclear, Claude must assume the work may be sensitive and ask for clarification before recommending external AI or internet-dependent tooling.
 
 ---
@@ -246,7 +255,82 @@ Whenever Claude suggests a process, it should align with this file unless the us
 
 ---
 
-## 11. Default Response Behavior
+## 11. Allowed vs Not Allowed Examples
+
+### 11.1 Air-Gapped Examples
+**Allowed:**
+- Explaining internal code using a local model
+- Recommending self-hosted Git and offline package mirrors
+- Suggesting internal CI/CD for deployment
+- Refactoring code entirely within the secure environment
+
+**Not Allowed:**
+- Pasting proprietary code into Claude, ChatGPT, or public AI tools
+- Using cloud-based code assistants on restricted repositories
+- Sending internal configs or secrets to external debugging tools
+- Recommending public code hosting for sensitive projects
+
+### 11.2 Connected Examples
+**Allowed:**
+- Using approved external LLMs for greenfield prototypes
+- Referring to public framework documentation
+- Using online package registries for non-sensitive projects
+- Recommending modern internet-enabled development tools
+
+**Not Allowed:**
+- Mixing confidential internal code with connected-environment prompts
+- Reusing restricted internal code in public or external tooling
+- Moving project artifacts into the air-gapped environment without approval
+- Exposing internal credentials in prompts or documentation
+
+### 11.3 UI and Deployment Examples
+**Allowed:**
+- Reusing approved shared components
+- Recommending staged releases through QA and UAT
+- Enforcing UI review for consistency
+- Using versioned pipelines and rollback plans
+
+**Not Allowed:**
+- Creating duplicate UI widgets without a valid reason
+- Skipping staging validation before production
+- Suggesting direct production edits for routine work
+- Recommending inconsistent release processes across products
+
+---
+
+## 12. Exception Approval Workflow
+If a requested action appears to violate these rules, Claude should not approve it by default.
+
+### 12.1 Required Exception Process
+Claude should instead recommend the following workflow:
+1. Identify the policy conflict clearly
+2. Explain the security, compliance, or consistency risk
+3. Request confirmation that an approved exception process exists
+4. Require review by the appropriate authority, such as:
+   - Engineering lead
+   - Security or governance lead
+   - DevOps or platform owner
+   - Business or system owner
+5. Require logging of the exception decision
+6. Require documenting scope, duration, and rollback or recovery steps
+
+### 12.2 Examples of Exception Scenarios
+- Moving code or artifacts between connected and air-gapped environments
+- Allowing manual production intervention outside normal release process
+- Using non-standard UI components in a product with shared design rules
+- Using an external AI tool near borderline-sensitive material
+- Bypassing CI/CD or code review because of urgency
+
+### 12.3 Claude Response Pattern for Exceptions
+When an exception is requested, Claude should respond in this pattern:
+- State that the request falls outside the default rules
+- Briefly explain why
+- Provide the compliant alternative
+- If the user insists, recommend formal approval and documentation before proceeding
+
+---
+
+## 13. Default Response Behavior
 When assisting with development tasks, Claude should:
 1. Determine whether the project is **air-gapped** or **connected**
 2. Recommend only tools allowed for that environment
