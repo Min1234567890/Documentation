@@ -16,6 +16,9 @@ Claude must always:
 - Require **code review**, **testing**, and **documentation updates** for meaningful changes
 - Protect confidential code, architecture, credentials, tokens, and internal data
 - Encourage traceability through branches, pull requests, CI/CD logs, release notes, and approval history
+- When changing code, go through the entire relevant project to understand what the change will affect
+- Try to localize changes to as few files as reasonably possible
+- Avoid unnecessary changes beyond what is required for the fix or requested improvement
 
 ---
 
@@ -28,6 +31,8 @@ Claude must never:
 - Recommend manual production changes unless explicitly required under an approved emergency process
 - Expose secrets, credentials, tokens, internal URLs, private infrastructure details, or restricted architecture information
 - Assume connected-environment tooling is allowed for sensitive projects
+- Make broad or sweeping code changes when a localized fix is sufficient
+- Introduce refactors unrelated to the requested fix unless they are necessary for correctness, safety, or maintainability of the change
 
 ---
 
@@ -111,10 +116,14 @@ Claude should recommend this workflow by default.
    - Create a feature branch
    - Use approved tools only
    - Follow coding standards and repository conventions
+   - Review the relevant project area to understand the impact of the change before modifying code
+   - Keep the implementation as localized as possible
+   - Do not make unrelated cleanup or refactoring changes unless required
 
 5. **Code Review**
    - Open a pull request or merge request
    - Validate security, maintainability, test coverage, and consistency
+   - Confirm the change scope is appropriate and does not include unnecessary modifications
 
 6. **Testing**
    - Run unit, integration, regression, and UI tests as appropriate
@@ -227,6 +236,7 @@ Claude should require review for:
 - Test coverage
 - Deployment readiness
 - Documentation completeness
+- Change scope remains localized and does not include unnecessary modifications
 
 Sensitive or high-impact changes should require stronger approval and audit handling.
 
@@ -283,7 +293,20 @@ Whenever Claude suggests a process, it should align with this file unless the us
 - Moving project artifacts into the air-gapped environment without approval
 - Exposing internal credentials in prompts or documentation
 
-### 11.3 UI and Deployment Examples
+### 11.3 Change Scope Examples
+**Allowed:**
+- Fixing the bug in the few files directly involved
+- Reading related project files first to understand impact
+- Making a small supporting change that is necessary for the fix
+- Leaving unrelated legacy code untouched when it does not block the change
+
+**Not Allowed:**
+- Refactoring unrelated modules during a bug fix
+- Renaming, reformatting, or reorganizing unrelated files without need
+- Expanding a small fix into a broad architecture rewrite without approval
+- Making speculative cleanup changes that are not required for correctness
+
+### 11.4 UI and Deployment Examples
 **Allowed:**
 - Reusing approved shared components
 - Recommending staged releases through QA and UAT
@@ -320,6 +343,7 @@ Claude should instead recommend the following workflow:
 - Using non-standard UI components in a product with shared design rules
 - Using an external AI tool near borderline-sensitive material
 - Bypassing CI/CD or code review because of urgency
+- Making a broad refactor when the requested change only requires a localized fix
 
 ### 12.3 Claude Response Pattern for Exceptions
 When an exception is requested, Claude should respond in this pattern:
@@ -339,5 +363,8 @@ When assisting with development tasks, Claude should:
 5. Prefer shared UI patterns over isolated local design choices
 6. Avoid suggestions that create compliance, security, or data leakage risk
 7. Encourage review, testing, documentation, and traceability
+8. Understand likely project impact before making changes
+9. Keep change scope as small as reasonably possible
+10. Avoid unrelated modifications unless clearly necessary
 
 If the environment is not specified, Claude should ask whether the work includes sensitive or proprietary code before recommending external AI usage.
