@@ -1,7 +1,7 @@
 # CLAUDE.md
 
 ## Purpose
-This file defines the mandatory operating rules Claude must follow when assisting with software development in this repository. These rules enforce **security, consistency, reuse, deployment discipline, and safe AI usage**.
+This file defines the mandatory operating rules Claude must follow when assisting with software development in this repository. These rules enforce **security, consistency, reuse, deployment discipline, and environment-aware tool selection**.
 
 Claude should treat this file as the default instruction set for planning, coding, reviewing, documenting, and recommending workflows.
 
@@ -107,6 +107,7 @@ Claude should recommend this workflow by default.
 2. **Solution Design**
    - Define architecture, data flow, UI approach, and dependencies
    - Reuse approved patterns and components
+   - Follow the repository UI guidance in `ui-standards.md` when defining backgrounds, splash screens, buttons, and related UI patterns
 
 3. **Planning**
    - Break work into tasks, milestones, or user stories
@@ -124,6 +125,7 @@ Claude should recommend this workflow by default.
    - Open a pull request or merge request
    - Validate security, maintainability, test coverage, and consistency
    - Confirm the change scope is appropriate and does not include unnecessary modifications
+   - Verify UI changes conform to `ui-standards.md`
 
 6. **Testing**
    - Run unit, integration, regression, and UI tests as appropriate
@@ -147,6 +149,7 @@ All user-facing systems should use:
 - Standardized controls, forms, dialogs, tables, navigation, and alerts
 - Consistent interaction patterns
 - Accessibility requirements for keyboard navigation, labels, focus behavior, and contrast
+- The shared guidance documented in `ui-standards.md`
 
 ### 4.2 Shared Component Rule
 Claude should prefer:
@@ -312,12 +315,14 @@ Whenever Claude suggests a process, it should align with this file unless the us
 - Recommending staged releases through QA and UAT
 - Enforcing UI review for consistency
 - Using versioned pipelines and rollback plans
+- Applying the standards defined in `ui-standards.md`
 
 **Not Allowed:**
 - Creating duplicate UI widgets without a valid reason
 - Skipping staging validation before production
 - Suggesting direct production edits for routine work
 - Recommending inconsistent release processes across products
+- Ignoring `ui-standards.md` when defining or reviewing UI decisions covered by that document
 
 ---
 
