@@ -1,234 +1,340 @@
-# Proposal: Hybrid Air‑Gapped & Token‑Based Development Environment
+# Proposal: Hybrid Air-Gapped & Token-Based Development Environment
 
 ## Executive Summary
-We propose a **dual‑environment software development setup** that balances **security for sensitive projects** with **flexibility for new initiatives**.  
-- **Air‑gapped environment**: Protects company intellectual property and prevents data leakage.  
-- **Token‑based external LLMs**: Enables rapid prototyping and innovation for new projects where no sensitive code exists.  
+This proposal recommends adopting a **hybrid software development model** that combines a **secure air-gapped environment** for sensitive and proprietary software with a **connected development environment** for new, non-sensitive projects. This approach balances **security, productivity, consistency, and innovation**.
 
-This approach ensures our developers can **debug faster, add features confidently, and deliver new projects quickly** without compromising company information.
+The model protects company intellectual property by ensuring sensitive source code and systems remain isolated from the internet, while still allowing teams to use modern external AI tools for rapid prototyping and experimentation where no confidential information is involved.
 
----
+In addition to environment separation, this proposal defines a **default software development workflow** to ensure all teams follow the same standards for UI design, coding, testing, deployment, and governance.
 
-## 1. Secure Air‑Gapped Environment
-**Purpose**: Handle all existing projects and proprietary code.  
-
-**Components**:
-- Local deployment of **Qwen 70B** LLM for debugging and refactoring.  
-- **Visual Studio Code** with offline extensions for C# and Python.  
-- Self‑hosted Git server (GitLab/Gitea) with CI/CD pipeline.  
-- Internal mirrors for NuGet and PyPI to ensure package availability offline.  
-
-**Hardware**:
-- 4–8× NVIDIA A100/H100 GPUs (80GB each).  
-- 1–2 TB RAM, dual EPYC/Xeon CPUs.  
-- 20 TB NVMe SSD storage with RAID redundancy.  
-- 10–40 Gbps internal networking.  
-
-**Benefits**:
-- No external connectivity → zero risk of code leakage.  
-- Developers improve debugging skills by working directly with local AI assistance.  
-- Controlled updates via secure staging server.  
+**Key outcomes:**
+- Protect sensitive code and business data
+- Improve development speed and code quality
+- Standardize UI and deployment practices across all software
+- Enable safe adoption of AI-assisted development tools
+- Increase delivery consistency for all users and teams
 
 ---
 
-## 2. Connected Environment for New Projects
-**Purpose**: Rapid development of projects with no prior sensitive code.  
-
-**Components**:
-- Token‑based access to external LLMs (DeepSeek, Claude, etc.).  
-- Standard developer workstations with internet access.  
-- Separate Git repositories and CI/CD pipelines, isolated from air‑gapped systems.  
-
-**Benefits**:
-- Quick turnaround for projects we’ve never coded before.  
-- Access to cutting‑edge AI models without risking proprietary data.  
-- Developers gain exposure to modern AI‑assisted coding practices.  
+## 1. Objectives
+The objectives of this proposal are to:
+- Protect proprietary software and confidential business logic
+- Establish a secure development model for existing internal systems
+- Provide a controlled way to use external AI tools for new project development
+- Define a standard workflow for software delivery across all teams
+- Ensure UI consistency across deployed applications
+- Ensure deployment consistency for all users and environments
+- Improve governance, auditability, and engineering discipline
 
 ---
 
-## 3. Security & Governance
-- **Network Segmentation**:  
-  - Air‑gapped subnet for sensitive projects.  
-  - Internet‑enabled subnet for new projects.  
-- **Access Control**:  
-  - Developers authenticate separately depending on environment.  
-- **Audit Logging**:  
-  - Track usage of external LLMs to ensure compliance.  
-- **Data Transfer Policy**:  
-  - Strict controls on moving code between environments.  
-  - Only approved managers can authorize migration.  
+## 2. Scope
+This proposal applies to:
+- Internal software development teams
+- Existing software products containing proprietary or sensitive code
+- New software projects that do not contain confidential intellectual property at project start
+- Development workflows for C#, Python, web, and service-based applications
+- UI design, source control, testing, deployment, and release management practices
 
 ---
 
-## 4. Developer Productivity Gains
-- **Debugging**: Local Qwen 70B helps developers quickly identify and fix issues.  
-- **Feature Development**: AI assistance accelerates adding new features to existing projects.  
-- **Skill Growth**: Developers gain hands‑on experience with both air‑gapped AI and external token‑based AI.  
-- **Innovation**: External LLMs allow experimentation with new languages, frameworks, and architectures.  
+## 3. Proposed Development Model
+
+### 3.1 Secure Air-Gapped Environment
+**Purpose:** Support development, maintenance, debugging, and enhancement of sensitive or proprietary projects.
+
+**Core components:**
+- Local deployment of **Qwen 70B** or equivalent internal LLM for debugging, code explanation, and refactoring assistance
+- **Visual Studio Code** and approved offline development extensions for C# and Python
+- Self-hosted Git platform such as **GitLab** or **Gitea**
+- Internal CI/CD infrastructure
+- Internal package mirrors for **NuGet** and **PyPI**
+- Secure local documentation and artifact repositories
+
+**Indicative hardware requirements:**
+- 4-8x NVIDIA A100/H100 GPUs (80 GB each)
+- 1-2 TB RAM
+- Dual EPYC/Xeon CPUs
+- 20 TB NVMe SSD storage with RAID
+- 10-40 Gbps internal networking
+
+**Benefits:**
+- Sensitive code never leaves the protected environment
+- Reduced risk of intellectual property leakage
+- Developers receive AI support without external exposure
+- Controlled and auditable software changes
+- Reliable offline development capability
+
+### 3.2 Connected Environment for New Projects
+**Purpose:** Support rapid development of new projects, prototypes, proofs of concept, and research initiatives that do not contain sensitive code.
+
+**Core components:**
+- Token-based access to approved external LLMs such as Claude, DeepSeek, or other enterprise-approved providers
+- Internet-enabled developer workstations
+- Separate repositories and CI/CD pipelines isolated from sensitive environments
+- Standard cloud or internet-enabled package and documentation access
+
+**Benefits:**
+- Faster delivery for new initiatives
+- Access to the latest AI-assisted development capabilities
+- Lower up-front infrastructure cost for exploratory work
+- Improved experimentation with modern frameworks, tools, and architectures
 
 ---
 
-## 5. Business Impact
-- **Risk Mitigation**: Sensitive code never leaves the air‑gapped environment.  
-- **Faster Delivery**: New projects can be prototyped and delivered quickly using external AI.  
-- **Cost Efficiency**: Hardware investment is focused only on secure workloads; external AI is pay‑per‑use.  
-- **Competitive Advantage**: Balances security with agility, enabling us to innovate without exposing IP.  
+## 4. Security and Governance Model
+To protect company information while maintaining operational efficiency, the following controls are required:
+
+### 4.1 Network Segmentation
+- Maintain a fully isolated **air-gapped subnet** for sensitive projects
+- Maintain a separate **connected subnet** for new project work
+- Prohibit direct synchronization between the two environments unless explicitly approved
+
+### 4.2 Access Control
+- Developers must authenticate separately for each environment
+- Access should be role-based and approved according to project classification
+- Administrative access should be limited and fully audited
+
+### 4.3 Data Transfer Policy
+- Movement of code, artifacts, or documents between environments must follow a formal approval process
+- Only designated managers or security-authorized approvers may approve transfers
+- All imports into the air-gapped environment must be reviewed and scanned before acceptance
+
+### 4.4 Audit and Compliance
+- Log external AI tool usage for approved connected-environment projects
+- Track repository changes, releases, and deployment approvals
+- Retain records for security review and operational audit
 
 ---
 
-## 6. Default Workflow for Consistent Software Development
-To ensure consistency across all software projects, the company should adopt a **standard development workflow** that applies to both air‑gapped and connected environments.
+## 5. Default Workflow for Consistent Software Development
+A default engineering workflow is required to ensure software is built, reviewed, tested, deployed, and maintained consistently across all teams.
 
-### 6.1 UI Component Consistency
-- Establish a **shared design system** with reusable UI components, styles, icons, and layouts.  
-- Maintain a **central UI component library** for all deployed applications.  
-- Define standards for:  
-  - Colors, typography, spacing, and branding  
-  - Buttons, forms, tables, dialogs, and navigation  
-  - Accessibility requirements  
-- Require all teams to build new interfaces using approved shared components rather than creating custom UI elements from scratch.  
-- Review UI changes during pull request reviews to ensure visual and functional consistency.
+### 5.1 Standard Delivery Workflow
+All software projects should follow the workflow below:
 
-**Recommended tools/process**:
-- Use a shared frontend framework and component library.  
-- Maintain UI guidelines documentation in the internal Git repository.  
-- Version the component library so all applications can adopt controlled updates.
+1. **Requirement Definition**
+   - Define business objective, scope, users, and acceptance criteria
+   - Classify the work as **sensitive** or **non-sensitive**
+   - Assign the project to the correct environment
 
-### 6.2 Deployment Consistency
-- Standardize the deployment pipeline so all software is built, tested, approved, and released in the same way.  
-- Use the same deployment stages for all projects:  
-  1. Development  
-  2. Testing / QA  
-  3. Staging / UAT  
-  4. Production  
-- Use infrastructure templates and deployment scripts to avoid manual differences between systems.  
-- Keep environment variables, configuration management, and release approvals standardized.  
-- Ensure all users receive software through the same approved deployment mechanism.
+2. **Solution Design**
+   - Create architecture, UI design, and technical design documents
+   - Reuse approved patterns, frameworks, and shared components
+   - Review security and deployment implications early
 
-**Recommended tools/process**:
-- CI/CD pipelines in GitLab, Gitea, or Jenkins.  
-- Standard build scripts for C# and Python applications.  
-- Containerization where possible to ensure identical runtime environments.  
-- Release versioning and rollback procedures for every deployment.
+3. **Planning and Task Breakdown**
+   - Break work into features, user stories, or implementation tasks
+   - Estimate effort and assign owners
+   - Define test requirements and release targets
 
-### 6.3 Default Software Development Workflow
-The following workflow is recommended as the company default:
+4. **Development**
+   - Create a feature branch from the approved base branch
+   - Develop using approved IDEs, libraries, and AI tools
+   - Follow coding standards and shared engineering conventions
 
-1. **Requirement Definition**  
-   - Define business requirement, scope, and security classification.  
-   - Decide whether the work belongs in the **air‑gapped** or **connected** environment.  
+5. **Code Review**
+   - Submit a pull request or merge request
+   - Review for functionality, readability, maintainability, security, UI consistency, and test coverage
+   - Require approval before merging
 
-2. **Design Phase**  
-   - Prepare architecture, UI design, and technical approach.  
-   - Reuse approved design patterns, coding standards, and UI components.  
+6. **Testing**
+   - Execute unit, integration, regression, and where applicable UI tests
+   - Validate against acceptance criteria
+   - Record test evidence for release readiness
 
-3. **Development Phase**  
-   - Create a feature branch in Git.  
-   - Use AI tools only within the approved environment:  
-     - **Air‑gapped projects** → local Qwen 70B only  
-     - **New non-sensitive projects** → approved external LLMs  
-   - Developers write code following coding conventions and shared libraries.  
+7. **Deployment**
+   - Deploy only through the approved CI/CD pipeline
+   - Promote through defined stages: Development, QA, Staging/UAT, Production
+   - Record version, approver, and deployment outcome
 
-4. **Code Review Phase**  
-   - Submit merge/pull request.  
-   - Validate:  
-     - Code quality  
-     - Security compliance  
-     - UI consistency  
-     - Reuse of shared components  
-     - Test coverage  
-
-5. **Testing Phase**  
-   - Run automated tests (unit, integration, regression).  
-   - Perform UI validation and user acceptance testing where needed.  
-
-6. **Deployment Phase**  
-   - Deploy through the standard CI/CD pipeline only.  
-   - Release to staging before production.  
-   - Record deployment logs and version history.  
-
-7. **Maintenance Phase**  
-   - Monitor issues, performance, and user feedback.  
-   - Apply fixes through the same controlled workflow.  
-
-### 6.4 Suggested Tool Usage Workflow
-To guide developers, the company should define a default tool usage model:
-
-**For Air‑Gapped Sensitive Projects**:
-- IDE: Visual Studio Code / Visual Studio  
-- Source Control: Self-hosted GitLab or Gitea  
-- AI Assistant: Local Qwen 70B only  
-- Build Tools: Internal build agents  
-- Package Sources: Internal NuGet / PyPI mirrors  
-- Deployment: Internal CI/CD only  
-
-**For Connected New Projects**:
-- IDE: Visual Studio Code / JetBrains / Visual Studio  
-- Source Control: Separate Git repositories  
-- AI Assistant: Approved token-based LLMs  
-- Build Tools: Cloud or internet-enabled CI/CD pipeline  
-- Deployment: Segregated staging and production environments  
-
-### 6.5 Governance Rules for Workflow Consistency
-- Every project must follow the same branching strategy.  
-- Every project must use the same definition of done.  
-- Every UI must use approved shared components.  
-- Every deployment must pass testing and approval gates.  
-- Every use of external AI tools must be logged and restricted to approved project types.  
-- No code may move from connected systems into the air‑gapped environment without approval and review.
+8. **Monitoring and Maintenance**
+   - Monitor usage, errors, performance, and feedback
+   - Fix defects and deploy updates through the same controlled workflow
 
 ---
 
-## Architecture Diagram
+## 6. UI Consistency Standard
+To ensure UI component consistency across all deployed software, the company should establish a **shared design system**.
 
-```text
-                        ┌───────────────────────────────┐
-                        │        Developer PCs          │
-                        │  - VS Code (C#/Python)        │
-                        │  - Local debugging            │
-                        │  - Git client                 │
-                        └───────────────┬───────────────┘
-                                        │
-                                        │ Internal LAN
-                                        │
-        ┌───────────────────────────────┴───────────────────────────────┐
-        │                        Air-Gapped Subnet                      │
-        │                                                               │
-        │   ┌───────────────────────────────┐   ┌────────────────────┐  │
-        │   │   Secure Compute Server       │   │   Git/CI/CD Server │  │
-        │   │ - Qwen 70B LLM (local)        │   │ - GitLab/Gitea     │  │
-        │   │ - 4–8× A100/H100 GPUs         │   │ - Jenkins CI/CD    │  │
-        │   │ - 1–2 TB RAM                  │   │ - Package mirrors  │  │
-        │   │ - 20 TB NVMe storage          │   │ - Internal repos   │  │
-        │   └───────────────────────────────┘   └────────────────────┘  │
-        │                                                               │
-        │   Purpose: Debugging, refactoring, sensitive projects          │
-        └───────────────────────────────────────────────────────────────┘
+### 6.1 Required UI Standards
+All user-facing applications should use:
+- Shared color palette and branding rules
+- Standard typography and spacing scale
+- Standard buttons, forms, dialogs, navigation, tables, and alerts
+- Accessibility standards for keyboard use, contrast, labels, and focus behavior
+- Responsive layout standards where applicable
 
-                                        │
-                                        │ Controlled Access Boundary
-                                        │
-        ┌───────────────────────────────┴───────────────────────────────┐
-        │                      Connected Subnet                         │
-        │                                                               │
-        │   ┌───────────────────────────────┐                           │
-        │   │   Developer Workstations      │                           │
-        │   │ - Internet enabled            │                           │
-        │   │ - Token-based LLM access      │                           │
-        │   │   (DeepSeek, Claude, etc.)    │                           │
-        │   └───────────────────────────────┘                           │
-        │                                                               │
-        │   Purpose: Rapid prototyping, new projects, experimentation   │
-        └───────────────────────────────────────────────────────────────┘
-```
+### 6.2 Shared Component Strategy
+- Maintain a **central UI component library** for all common controls
+- Version the component library to support controlled upgrades
+- Require teams to reuse approved components instead of building duplicate custom components
+- Maintain UI documentation and examples in the internal repository
+
+### 6.3 UI Review Requirements
+During code review, teams must verify:
+- Conformance to approved design guidelines
+- Reuse of shared UI components
+- Accessibility compliance
+- Consistent user interaction patterns across applications
 
 ---
 
-## Recommendation
-Adopt this **hybrid model** immediately:  
-- Deploy the air‑gapped server cluster for existing projects.  
-- Enable token‑based external LLMs for new projects.  
-- Standardize the software development workflow across all teams.  
-- Train developers on environment separation, UI standards, deployment consistency, and security protocols.  
+## 7. Deployment Consistency Standard
+To ensure software is deployed consistently for all users, deployment must follow a common release model.
 
-This solution ensures **no leakage of company information**, **improves developer skill sets**, and **accelerates delivery of new projects** while maintaining **consistent UI, deployment, and engineering practices**.
+### 7.1 Standard Deployment Stages
+Every project should use the same promotion path:
+1. Development
+2. Test / QA
+3. Staging / UAT
+4. Production
+
+### 7.2 Deployment Rules
+- All deployments must be automated through CI/CD where possible
+- Manual production deployment should be exception-only and approved
+- Release packages must be versioned
+- Rollback procedures must exist for every production release
+- Environment configuration must be standardized and documented
+- Deployment logs must be retained for audit and troubleshooting
+
+### 7.3 End-User Consistency
+To ensure consistency for all users:
+- Use the same approved release process for all applications
+- Use standardized environment configuration templates
+- Validate software in staging before production rollout
+- Control phased release or full release according to business need
+
+---
+
+## 8. Default Tool Usage Workflow
+The company should define a default way to use tools for software development so engineers work consistently and safely.
+
+### 8.1 Approved Tool Usage for Sensitive Projects
+**Environment:** Air-gapped
+- IDE: Visual Studio Code / Visual Studio
+- Source control: Self-hosted GitLab or Gitea
+- AI assistant: Local Qwen 70B or approved internal model only
+- Build agents: Internal build servers only
+- Package sources: Internal NuGet / PyPI mirrors
+- CI/CD: Internal pipeline only
+- Documentation: Internal wiki / repository documentation only
+
+**Rule:** No external AI, cloud repository, or internet-based code assistant may be used with sensitive code.
+
+### 8.2 Approved Tool Usage for New Non-Sensitive Projects
+**Environment:** Connected
+- IDE: Visual Studio Code / Visual Studio / JetBrains tools
+- Source control: Separate repositories not connected to air-gapped assets
+- AI assistant: Approved external token-based LLMs
+- Package sources: Approved public or enterprise-managed registries
+- CI/CD: Connected pipeline isolated from sensitive systems
+- Documentation: Public documentation and approved enterprise knowledge sources
+
+**Rule:** External AI tools may only be used where no confidential company code or restricted data is involved.
+
+### 8.3 Recommended Day-to-Day Developer Workflow
+1. Confirm project classification before starting work
+2. Select the correct development environment
+3. Pull latest code from the approved repository
+4. Create a feature branch using the standard branch naming convention
+5. Implement changes using approved tools only
+6. Run local tests before review
+7. Open merge/pull request and complete peer review
+8. Merge only after approval and successful pipeline checks
+9. Deploy through the standard release pipeline
+10. Update documentation and release notes
+
+---
+
+## 9. Recommended Branching and Release Model
+To support consistency, the following baseline model is recommended:
+
+### 9.1 Branching Strategy
+- `main` or `master`: production-ready code
+- `develop` (optional): integration branch for active development
+- `feature/<name>`: feature development
+- `bugfix/<name>`: defect fixes
+- `hotfix/<name>`: urgent production fixes
+
+### 9.2 Merge Rules
+- No direct commit to production branch except under approved emergency procedure
+- All merges require code review
+- CI checks must pass before merge
+- Release tags should be created for production versions
+
+---
+
+## 10. Roles and Responsibilities
+### Engineering Team
+- Build software according to standards and approved workflow
+- Reuse shared components and follow coding conventions
+- Write and maintain tests
+
+### Technical Leads / Architects
+- Review architecture and design decisions
+- Enforce standards for maintainability and reuse
+- Approve exceptions to normal design patterns where justified
+
+### DevOps / Platform Team
+- Maintain CI/CD pipelines and deployment standards
+- Provide infrastructure templates and automation support
+- Maintain package mirrors and internal tooling where required
+
+### Security / Governance Team
+- Define classification and usage policies
+- Review environment separation and data transfer controls
+- Audit external AI usage and compliance records
+
+### Management
+- Approve the operating model
+- Fund required infrastructure and training
+- Enforce policy adoption across teams
+
+---
+
+## 11. Risks and Mitigations
+| Risk | Impact | Mitigation |
+|------|--------|------------|
+| Developers use the wrong environment | Data leakage or policy breach | Mandatory project classification and access control |
+| UI inconsistency across applications | Poor user experience and increased maintenance | Shared design system and mandatory component reuse |
+| Inconsistent deployment processes | Release failures and user confusion | Standard CI/CD pipeline and release gates |
+| Overdependence on external AI tools | Compliance and IP exposure risk | Restrict external AI to approved non-sensitive projects |
+| High cost of air-gapped infrastructure | Budget pressure | Limit secure infrastructure use to sensitive workloads |
+
+---
+
+## 12. Implementation Plan
+### Phase 1: Governance and Standards
+- Approve policy for environment usage
+- Define project classification rules
+- Publish coding, UI, and deployment standards
+
+### Phase 2: Tooling and Infrastructure
+- Deploy or confirm air-gapped compute and internal repositories
+- Configure internal package mirrors and CI/CD pipelines
+- Establish connected environment controls for external AI usage
+
+### Phase 3: Shared Engineering Assets
+- Create shared UI component library
+- Create templates for repositories, pipelines, and environments
+- Publish workflow documentation and development checklists
+
+### Phase 4: Training and Adoption
+- Train developers on environment selection and tool usage
+- Train reviewers on UI, security, and deployment consistency checks
+- Monitor adoption and collect improvement feedback
+
+---
+
+## 13. Recommendation
+Adopt this hybrid model as the company standard for software development.
+
+**Recommended decisions:**
+- Approve the air-gapped environment for sensitive software
+- Approve controlled use of external AI tools for new non-sensitive projects
+- Standardize the software development lifecycle across all teams
+- Enforce shared UI, testing, and deployment standards
+- Implement governance for environment separation and data transfer
+
+This model provides a practical balance between **security and innovation** while improving **engineering consistency, software quality, and delivery reliability**.
